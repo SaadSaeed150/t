@@ -1,22 +1,10 @@
-import pandas as pd
-
-import base64
-import os
-from urllib.parse import quote as urlquote
-from dash import Dash, dcc, html, Input, Output, State
 from flask import Flask, send_from_directory
-import dash
-from dash import dcc
-from dash import html
-from dash.dependencies import Input, Output
-
-import io
 from dash import Dash, dcc, html, Input, Output
 import dash_auth
 
 # Keep this out of source code repository - save in a file or a database
 VALID_USERNAME_PASSWORD_PAIRS = {
-    'sunny': 'sunny'
+    'saad': '1212'
 }
 
 
@@ -25,10 +13,6 @@ from dash.dependencies import Input, Output, State
 from dash import dcc, html, dash_table
 
 import pandas as pd
-
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
