@@ -368,3 +368,68 @@ class Grid():
                 price = start_price - (start_price / 100 * 0.20 * i)
                 self.StopMarketOrder(size, price, 'short', date)
 
+                
+# Import libraries
+import json
+import requests
+from datetime import datetime
+# defining key/request url
+import traceback
+
+grid = Grid()
+
+key = "https://data.binance.com/api/v3/ticker/price?symbol=ETHUSDT"
+import time 
+df = pd.DataFrame(columns = ['Datetime', 'Open' , 'High', 'Low', 'Close'])
+
+
+close = 0
+low = 0
+high = 0
+low = 1e1000
+
+data = requests.get(key)
+data = data.json()
+open = float(data['price'])
+
+flag = True
+
+while True:
+
+  if datetime.utcnow().time().minute % 1 ==0 and datetime.utcnow().time().second == 0 and flag == True:
+    if flag:
+      flag = False
+
+      df.loc[len(df)] = [str(datetime.utcnow()).split(".")[0] , open, high, low, close]
+
+      if len(df) > 4:
+
+        df_final = get_hull_new_dataframe(df[-30:])
+        grid.OnData(df_final.loc[len(df_final)-1], df_final.loc[len(df_final)-1]['Datetime'])
+        grid.pnldf.to_csv("grid_info.csv")
+        df_final.to_csv("df_final.csv")
+        grid.orderlist.to_csv("order_list.csv")
+
+      df.to_csv('btc_data.csv')      
+      print("For time :: {} >>>>>  Open {} , High {} , Close {},  Low {}".format(datetime.utcnow(), open, str(high), close, str(low)))
+      open = float(data['price'])
+      high = 0
+      low = 1e1000
+
+  if datetime.utcnow().time().second >30 :
+    flag = True
+
+  try:
+    data = requests.get(key)
+    data = data.json()
+  except:
+    print("Request failed at {}".format(datetime.utcnow()))
+
+  if datetime.utcnow().time().second == 59 :
+    close = float(data['price'])
+  
+  if float(data['price']) > high:
+    high = float(data['price'])
+
+  if float(data['price']) < low:
+    low = float(data['price'])                
