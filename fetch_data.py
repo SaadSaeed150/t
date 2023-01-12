@@ -124,11 +124,6 @@ try:
 except:
     pass
 
-from ta.volatility import AverageTrueRange
-from ta.trend import ema_indicator
-from ta.trend import SMAIndicator, EMAIndicator, MACD
-from ta.volatility import BollingerBands
-from ta.momentum import StochasticOscillator, RSIIndicator
 
 
 def get_RSI(close, window=26, fillna=False):
