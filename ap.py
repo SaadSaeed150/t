@@ -83,7 +83,7 @@ def parse_contents(n_intervals):
 @app.callback(Output('output-data-upload2', 'children'),
               Input('interval-component', 'n_intervals'))
 def parse_contents2(n_intervals):
-    df = pd.read_csv("grids_informatio.csv", index_col=[0])
+    df = pd.read_csv("grids_info.csv", index_col=[0])
 
     return html.Div([
         dash_table.DataTable(
